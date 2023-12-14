@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NonAuthController;
@@ -51,7 +52,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/product/create', [ProductController::class, 'store']);
     Route::get('/product/list', [ProductController::class, 'index']);
 
-
+    # Cart
+    Route::get('/cart', [CartController::class, 'cartItems']);
+    Route::get('/cart/count', [CartController::class, 'itemCount']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/add-quantity/{cart_session_id}', [CartController::class, 'addQuantityToCart']);
+    Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
 
 
     Route::get('/roleandpermission/lists', [RoleController::class, 'index']);
