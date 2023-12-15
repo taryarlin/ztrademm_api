@@ -28,7 +28,7 @@ class CheckoutController extends Controller
 
             $request->validate(['payment_option' => 'required|in:cod,stripe']);
 
-            if($auth_user->cartItems()->count <= 0) {
+            if($auth_user->cartItems()->count() <= 0) {
                 return response()->json([
                     'status' => 'fail',
                     'message' => "No cart item to checkout"
