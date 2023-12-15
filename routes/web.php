@@ -41,5 +41,5 @@ Route::post('/updateresetpassword', [ResetPasswordController::class, 'updatepass
 // });
 
 Route::get('test', function () {
-    dd('Git deploy success');
+    dd('Git deploy success test.');
 });
