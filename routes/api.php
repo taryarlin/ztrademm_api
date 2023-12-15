@@ -55,11 +55,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     # Cart
     Route::get('/cart', [CartController::class, 'cartItems']);
     Route::get('/cart/count', [CartController::class, 'itemCount']);
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::post('/cart/add-quantity/{cart_session_id}', [CartController::class, 'addQuantityToCart']);
-    Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
+
     Route::post('/cart/add', [CartController::class, 'addToCart']);
     Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+
+    Route::post('/cart/add-quantity/{cart_session_id}', [CartController::class, 'addQuantityToCart']);
+    Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
 
 
     Route::get('/roleandpermission/lists', [RoleController::class, 'index']);
