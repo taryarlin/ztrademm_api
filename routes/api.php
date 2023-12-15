@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NonAuthController;
 use App\Http\Controllers\PercentageController;
@@ -56,17 +57,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     # Cart
     Route::get('/cart', [CartController::class, 'cartItems']);
     Route::get('/cart/count', [CartController::class, 'itemCount']);
-
     Route::post('/cart/add', [CartController::class, 'addToCart']);
     Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
-
     Route::post('/cart/add-quantity/{cart_session_id}', [CartController::class, 'addQuantityToCart']);
     Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
 
     # User Address
-    Route::post('/address',[UserAddress::class,'createAddress']);
-    Route::post('/address/update/{id}',[UserAddress::class,'updateAddress']);
+    Route::post('/address', [UserAddress::class, 'createAddress']);
+    Route::post('/address/update/{id}', [UserAddress::class, 'updateAddress']);
 
+    # Checkout
+    Route::post('checkout', [CheckoutController::class, 'checkout']);
 
     Route::get('/roleandpermission/lists', [RoleController::class, 'index']);
     Route::post('/addroleandpermision/', [RoleController::class, 'store']);

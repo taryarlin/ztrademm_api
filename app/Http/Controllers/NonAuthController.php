@@ -17,16 +17,16 @@ use App\Models\SearchList;
 
 class NonAuthController extends Controller
 {
-    
+
     public function searchSuggestions(){
        $productSuggestionArr = Product::pluck('name')->toArray();
       $unique = array_unique($productSuggestionArr);
       $productSuggestion = array_merge($unique, array());
       return response()->json([
          "productSuggestion" => $productSuggestion
-        ], 200); 
+        ], 200);
     }
-    
+
     public function searchSuggestionsUserID($id){
         if($id == null){
             $productSuggestionArr = Product::pluck('name')->toArray();
@@ -34,28 +34,28 @@ class NonAuthController extends Controller
       $productSuggestion = array_merge($unique, array());
       return response()->json([
          "productSuggestion" => $productSuggestion
-        ], 200); 
+        ], 200);
         }
         else{
             $searchSuggestions = SearchList::where("user_id",$id)->pluck('search_data')->toArray();
-            
+
             $uniqueSuggest = array_unique($searchSuggestions);
-            
+
             $productSuggestionArr = Product::pluck('name')->toArray();
-            
+
           $unique = array_unique($productSuggestionArr);
-          
+
           $mergeArray = array_merge($uniqueSuggest,$unique);
-          
+
           $productSuggestion = array_merge($mergeArray, array());
           return response()->json([
              "productSuggestion" => $productSuggestion
-            ], 200); 
+            ], 200);
         }
-       
+
     }
-    
-    
+
+
     public function addSearchList(Request $request){
         if($request->user_id!=null){
             $find_user = User::find($request->user_id);
@@ -65,13 +65,13 @@ class NonAuthController extends Controller
         ], 200);
         }
     }
-    
+
     public function relatedProducts($name){
         $product = Product::find($name);
        $products = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where('name','LIKE',"$product->name%")->limit(30)->get();
        return $products;
     }
-    
+
      public function relatedProductsMobile($name,$id){
          if($id == null){
           $product = Product::find($name);
@@ -91,10 +91,10 @@ class NonAuthController extends Controller
          "whishlists" => $wishlist
         ], 200);
          }
-       
+
     }
-    
-    
+
+
     //
     public function categoryList()
     {
@@ -139,11 +139,11 @@ class NonAuthController extends Controller
     public function categoryListShowTest($categoryId)
     {
         try{
-            
+
             $category = Category::where("id",$categoryId)->with('SubCategory','Product','Product.ProductImage')->paginate(100);
             if($category){
                 return  $category;
-    
+
             }
             else{
                 return response()->json([
@@ -156,7 +156,7 @@ class NonAuthController extends Controller
 
             return $e->getMessage();
         }
-        
+
     }
 
     public function subCategoryList()
@@ -185,17 +185,18 @@ class NonAuthController extends Controller
     public function productList()
     {
         $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->limit(30)->get();
+        
         return $product;
     }
-    
+
     public function productSubListTest($categoryId){
         $product = Product::where("subcategory_id",$categoryId)->with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->paginate(100);
       return $product;
     }
-    
+
     public function productListTest($categoryId)
     {
-        
+
       $product = Product::where("category_id",$categoryId)->with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->paginate(100);
       return $product;
     }
@@ -240,8 +241,8 @@ class NonAuthController extends Controller
             ], 404);
         }
     }
-    
-    
+
+
     public function showBrandWithProduct($id)
     {
         $store_product_slider = Store::with('Product','Slider','Product.ProductImage','Product.Percentage')->find($id);
@@ -270,7 +271,7 @@ class NonAuthController extends Controller
         $aboutus = AboutUs::all()->first();
         return $aboutus;
     }
-    
+
     public function getUserWishList($id){
         $wishlistData = WishList::where([["user_id","=",$id]])->get();
         return $wishlistData;

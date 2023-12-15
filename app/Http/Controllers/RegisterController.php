@@ -139,20 +139,15 @@ class RegisterController extends Controller
     {
         $verification_code = $request->code;
         $user = User::where(['verification_code' => $verification_code])->first();
+
         if($user != null) {
             $user->is_verified = 1;
             $user->save();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => "Verification Completed! Please Log In Now"
-            ], 201);
+            return view('info.register_success');
         }
 
-        return response()->json([
-            'status' => 'Fail',
-            'message' => "Please Verify Your Account"
-        ], 404);
+        return view('info.register_failed');
     }
 
     public function login(Request $request)
