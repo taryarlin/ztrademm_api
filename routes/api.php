@@ -17,11 +17,9 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TermandConditionController;
+use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
-use App\Models\UserAddress;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,8 +61,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
 
     # User Address
-    Route::post('/address', [UserAddress::class, 'createAddress']);
-    Route::post('/address/update/{id}', [UserAddress::class, 'updateAddress']);
+    Route::post('/address', [UserAddressController::class, 'createAddress']);
+    Route::post('/address/update/{id}', [UserAddressController::class, 'updateAddress']);
 
 
     # Checkout
