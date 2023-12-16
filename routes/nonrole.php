@@ -2,24 +2,25 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SubCategoryController;
-use App\Http\Controllers\PercentageController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\SliderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TermandConditionController;
-use App\Http\Controllers\SocialController;
 use App\Http\Controllers\IconController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\SocialController;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\NonAuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PercentageController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\PrivacyPolicyController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
+use App\Http\Controllers\TermandConditionController;
+use App\Http\Controllers\UserAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,14 +42,14 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 //   Route::get('/slider/list',[SliderController::class,'index']);
 // });
  Route::post('/search/addsearchlist',[NonAuthController::class,'addSearchList']);
- 
+
  Route::get('/search/relatedproducts/{name}',[NonAuthController::class,'relatedProducts']);
   Route::get('/search/relatedproducts/mobile/{name}/{id}',[NonAuthController::class,'relatedProductsMobile']);
 
   Route::get('/wishlist/data/{id}',[NonAuthController::class,'getUserWishList']);
     Route::get('/search/suggestions/user/{id}',[NonAuthController::class,'searchSuggestionsUserID']);
     Route::get('/search/suggestions',[NonAuthController::class,'searchSuggestions']);
-   
+
     Route::get('/slider/list',[NonAuthController::class,'sliderList']);
     //Category Protected Route
     Route::get('/ztrade/index/product',[HomeController::class,'product']);
@@ -114,6 +115,10 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
     Route::post('/user/register',[RegisterController::class,'store']);
     Route::post('/user/login',[RegisterController::class,'userlogin']);
 
+    # User Address
+    Route::post('/address',[UserAddressController::class,'createAddress']);
+    Route::post('/address/update/{id}',[UserAddressController::class,'updateAddress']);
+
     //Category
 
     Route::get('/category/list',[NonAuthController::class,'categoryList']);
@@ -167,5 +172,5 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 
     //Top Selling
     Route::get('/topselling',[ProductController::class,'topselling']);
-    
-   
+
+

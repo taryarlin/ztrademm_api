@@ -63,9 +63,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/cart/add-quantity/{cart_session_id}', [CartController::class, 'addQuantityToCart']);
     Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
 
-    # User Address
-    Route::post('/address',[UserAddress::class,'createAddress']);
-    Route::post('/address/update/{id}',[UserAddress::class,'updateAddress']);
+
 
 
     Route::get('/roleandpermission/lists', [RoleController::class, 'index']);
@@ -240,6 +238,6 @@ Route::post('sitesetting/save', [SiteSettingController::class, 'upload']);
 Route::post('sitesetting/update/{id}', [SiteSettingController::class, 'update']);
 Route::get('sitesetting/list', [SiteSettingController::class, 'list']);
 
-Route::get('test', function () {
+Route::get('/test', function () {
     return "hello world";
 });
