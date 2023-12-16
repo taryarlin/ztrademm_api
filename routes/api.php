@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/address', [UserAddress::class, 'createAddress']);
     Route::post('/address/update/{id}', [UserAddress::class, 'updateAddress']);
 
+
     # Checkout
     Route::post('checkout', [CheckoutController::class, 'checkout']);
 
@@ -241,6 +242,6 @@ Route::post('sitesetting/save', [SiteSettingController::class, 'upload']);
 Route::post('sitesetting/update/{id}', [SiteSettingController::class, 'update']);
 Route::get('sitesetting/list', [SiteSettingController::class, 'list']);
 
-Route::get('test', function () {
+Route::get('/test', function () {
     return "hello world";
 });

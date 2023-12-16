@@ -245,7 +245,7 @@ class RegisterController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::where('id',$id)->with('userAddress')->first();
         $user_permissions = $user->getAllPermissions();
 
         return ["user" => $user, 'permissions' => $user_permissions];

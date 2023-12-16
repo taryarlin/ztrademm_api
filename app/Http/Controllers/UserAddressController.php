@@ -10,6 +10,7 @@ class UserAddressController extends Controller
     //user address create
     public function createAddress (Request $request){
         $data = $request->validate([
+            'user_id' => 'required',
             'street' => 'required|string',
             'city' => 'required',
             'state' => 'required',
@@ -17,9 +18,9 @@ class UserAddressController extends Controller
             'postal_code' => 'nullable',
             'phone' => 'nullable',
         ]);
-        $auth_user = auth('sanctum')->user();
+        // $auth_user = auth('sanctum')->user();
         $address = UserAddress::create([
-            'user_id' => $auth_user->id,
+            'user_id' => $data['user_id'],
             'street' => $data['street'],
             'city' => $data['city'],
             'state' => $data['state'],
@@ -41,6 +42,7 @@ class UserAddressController extends Controller
         $address = UserAddress::find($id);
         if($address){
             $address->update([
+                'user_id' => $request->user_id ?? $address->user_id,
                 'street' => $request->street ?? $address->street,
                 'city' => $request->city ?? $address->city,
                 'start' => $request->start ?? $address->start,
