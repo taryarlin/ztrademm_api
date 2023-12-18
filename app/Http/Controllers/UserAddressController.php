@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class UserAddressController extends Controller
 {
-    //user address create
-    public function createAddress (Request $request){
+    public function save(Request $request)
+    {
         $data = $request->validate([
             'user_id' => 'required',
             'street' => 'required|string',
@@ -18,9 +18,10 @@ class UserAddressController extends Controller
             'postal_code' => 'nullable',
             'phone' => 'nullable',
         ]);
-        // $auth_user = auth('sanctum')->user();
-        $address = UserAddress::create([
-            'user_id' => $data['user_id'],
+
+        $address = UserAddress::updateOrCreate([
+            'user_id' => $request->user_id
+        ], [
             'street' => $data['street'],
             'city' => $data['city'],
             'state' => $data['state'],
@@ -33,35 +34,7 @@ class UserAddressController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' =>  $address,
+            'data' => $address,
         ], 201);
-    }
-
-    #user address update
-    public function updateAddress(Request $request,$id){
-        $address = UserAddress::find($id);
-        if($address){
-            $address->update([
-                'user_id' => $request->user_id ?? $address->user_id,
-                'street' => $request->street ?? $address->street,
-                'city' => $request->city ?? $address->city,
-                'start' => $request->start ?? $address->start,
-                'country' => $request->country ?? $address->country,
-                'postal_code' => $request->postal_code ?? $address->postal_code,
-                'phone' => $request->phone ?? $address->phone,
-            ]);
-
-            $address->load('user');
-            return response()->json([
-                'status' => 'success',
-                'message' =>  "Successfully Updated",
-                'data' => $address
-            ], 201);
-        }else{
-            return response()->json([
-                'status' => 'fail',
-                'message' =>  "Not Found"
-            ], 404);
-        }
     }
 }

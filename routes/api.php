@@ -61,9 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
 
     # User Address
-    Route::post('/address', [UserAddressController::class, 'createAddress']);
-    Route::post('/address/update/{id}', [UserAddressController::class, 'updateAddress']);
-
+    Route::post('/address', [UserAddressController::class, 'save']);
 
     # Checkout
     Route::post('checkout', [CheckoutController::class, 'checkout']);
