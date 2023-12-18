@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NonAuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\ProductController;
@@ -66,6 +67,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     # Checkout
     Route::post('checkout', [CheckoutController::class, 'checkout']);
+
+    # Order
+    Route::get('orders', [OrderController::class, 'index']);
 
     Route::get('/roleandpermission/lists', [RoleController::class, 'index']);
     Route::post('/addroleandpermision/', [RoleController::class, 'store']);
