@@ -19,7 +19,11 @@ class UserAddressController extends Controller
             ], 401);
         }
 
-        return new UserAddressResource($auth_user->address->load('user'));
+        if(!is_null($auth_user->address)) {
+            $auth_user->address->load('user');
+        }
+
+        return new UserAddressResource($auth_user->address);
     }
 
     public function save(Request $request)
