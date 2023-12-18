@@ -38,7 +38,6 @@ class UserAddressController extends Controller
         }
 
         $data = $request->validate([
-            'user_id' => 'required',
             'street' => 'required|string',
             'city' => 'required',
             'state' => 'required',
