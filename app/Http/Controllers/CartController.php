@@ -33,8 +33,6 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-        Log::info($request->all());
-
         DB::beginTransaction();
 
         try {

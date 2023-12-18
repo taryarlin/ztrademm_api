@@ -2,13 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserAddressResource;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 
 class UserAddressController extends Controller
 {
+    public function index()
+    {
+        $auth_user = auth('sanctum')->user();
+
+        if(is_null($auth_user)) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => "Unauthenticated"
+            ], 401);
+        }
+
+        return new UserAddressResource($auth_user->address->load('user'));
+    }
+
     public function save(Request $request)
     {
+        $auth_user = auth('sanctum')->user();
+
+        if(is_null($auth_user)) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => "Unauthenticated"
+            ], 401);
+        }
+
         $data = $request->validate([
             'user_id' => 'required',
             'street' => 'required|string',
@@ -20,7 +44,7 @@ class UserAddressController extends Controller
         ]);
 
         $address = UserAddress::updateOrCreate([
-            'user_id' => $request->user_id
+            'user_id' => $auth_user->id
         ], [
             'street' => $data['street'],
             'city' => $data['city'],

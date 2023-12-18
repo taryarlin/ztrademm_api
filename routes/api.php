@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/cart/reduce-quantity/{cart_session_id}', [CartController::class, 'reduceQuantityToCart']);
 
     # User Address
+    Route::get('/address', [UserAddressController::class, 'index']);
     Route::post('/address', [UserAddressController::class, 'save']);
 
     # Checkout
