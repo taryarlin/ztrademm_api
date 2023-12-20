@@ -15,4 +15,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getGrandTotalAttribute()
+    {
+        return $this->orderItems()->sum('total_price');
+    }
 }

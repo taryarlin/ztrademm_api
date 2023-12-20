@@ -9,9 +9,8 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return OrderResource::collection(Order::with('orderItems')->paginate(20))->additional([
-            'result' => 1,
-            'message' => 'success',
-        ]);
+        $data = OrderResource::collection(Order::with('orderItems')->get());
+
+        return json_decode(json_encode($data));
     }
 }
