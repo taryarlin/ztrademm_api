@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -128,6 +129,8 @@ class RegisterController extends Controller
                 ], 404);
             }
         } catch(\Exception $e) {
+            Log::error($e);
+
             return response()->json([
                 'status' => 'fail',
                 'message' => "Cannot fulfil your request! Please Check Following \n 1. Please Check You fill correct input \n 2. There is another User with Same Email"
