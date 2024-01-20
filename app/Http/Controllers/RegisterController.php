@@ -110,8 +110,6 @@ class RegisterController extends Controller
 
             $user->assignRole("User");
 
-            DB::commit();
-
             if($user != null) {
                 $verification_link = "https://api.ztrademm.com/verify?code=".$user->verification_code;
 
@@ -122,13 +120,17 @@ class RegisterController extends Controller
                     'token' => "null"
                 ];
 
-                return response()->json($response, 201);
+                $response_data = response()->json($response, 201);
             } else {
-                return response()->json([
+                $response_data = response()->json([
                     'status' => 'fail',
                     'message' => "Your account is already exists. To resend activation link, please connect with admin team."
                 ], 404);
             }
+
+            DB::commit();
+
+            return $response_data;
         } catch(\Exception $e) {
             DB::rollBack();
             Log::error($e);
