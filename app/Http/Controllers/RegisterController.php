@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class RegisterController extends Controller
@@ -88,19 +87,14 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        info($request->all());
-
         try {
             $data = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string|unique:users,email',
-                'profile_image' => 'nullable|image:jpeg,png,jpg,gif,svg',
                 'factory' => 'required|string',
                 'password' => 'required',
             ]);
-            // $file= $request->file('profile_image');
-            // $filename= time().$file->getClientOriginalName();
-            // $file-> move(public_path('storage/profile_pictures'), $filename);
+
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -110,14 +104,14 @@ class RegisterController extends Controller
                 'is_verified' => 0,
                 'verification_code' => sha1(time()),
             ]);
+
             $user->assignRole("User");
+
             if($user != null) {
                 $verification_link = "https://api.ztrademm.com/verify?code=".$user->verification_code;
 
                 $user->notify(new RegisterNotification($verification_link));
 
-                // $this->sendEmail($user->email, $verification);
-                // MailController::sendSignupEmail($user->name, $user->email, $user->verification_code);
                 $response = [
                     'user' => $user,
                     'token' => "null"
