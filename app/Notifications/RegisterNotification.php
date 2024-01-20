@@ -43,7 +43,7 @@ class RegisterNotification extends Notification
     {
         return (new MailMessage)
             ->line('Please click this link to activate your account')
-            ->action('Activation Link', $this->verification_link)
+            ->action('Activate', $this->verification_link)
             ->line('Thank you for using our application!');
     }
 

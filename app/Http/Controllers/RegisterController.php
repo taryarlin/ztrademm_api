@@ -102,7 +102,6 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'factory_name' => $data['factory'],
-                'profile_pic' => "user_profile.jpg",
                 'password' => Hash::make($data['password']),
                 'is_verified' => 0,
                 'verification_code' => sha1(time()),
