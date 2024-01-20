@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Notifications\RegisterNotification;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -87,6 +88,8 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction();
+
         try {
             $data = $request->validate([
                 'name' => 'required|string',
@@ -107,6 +110,8 @@ class RegisterController extends Controller
 
             $user->assignRole("User");
 
+            DB::commit();
+
             if($user != null) {
                 $verification_link = "https://api.ztrademm.com/verify?code=".$user->verification_code;
 
@@ -121,10 +126,11 @@ class RegisterController extends Controller
             } else {
                 return response()->json([
                     'status' => 'fail',
-                    'message' => "Not Found"
+                    'message' => "Your account is already exists. To resend activation link, please connect with admin team."
                 ], 404);
             }
         } catch(\Exception $e) {
+            DB::rollBack();
             Log::error($e);
 
             return response()->json([
