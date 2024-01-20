@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use App\Notifications\RegisterNotification;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -86,17 +86,10 @@ class RegisterController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(RegistrationRequest $request)
     {
-        DB::beginTransaction();
-
         try {
-            $data = $request->validate([
-                'name' => 'required|string',
-                'email' => 'required|string|unique:users,email',
-                'factory' => 'required|string',
-                'password' => 'required',
-            ]);
+            $data = $request->validated();
 
             $user = User::create([
                 'name' => $data['name'],
@@ -119,19 +112,14 @@ class RegisterController extends Controller
                     'token' => "null"
                 ];
 
-                $response_data = response()->json($response, 201);
+                return response()->json($response, 201);
             } else {
-                $response_data = response()->json([
+                return response()->json([
                     'status' => 'fail',
                     'message' => "Your account is already exists. To resend activation link, please connect with admin team."
                 ], 404);
             }
-
-            DB::commit();
-
-            return $response_data;
         } catch(\Exception $e) {
-            DB::rollBack();
             Log::error($e);
 
             return response()->json([
